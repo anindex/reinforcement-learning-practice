@@ -16,10 +16,27 @@ As Prof. Recht stated his point:
 
 > If a machine learning does crazy things  when restricted to  linear models, it's going to do crazy things on complex nonlinear models too.
 
-And reversely, if your ML algorithm has good results on non-linear models, it has to be get acceptable results on linear models too. Otherwise, it is unreasonable to trust your model. Therefore, LQR has come to save the day as a test-bed for everything new pop out of your head:  
+And reversely, if your ML algorithm has good results on non-linear models, it has to be get acceptable results on linear models too. Otherwise, it is unreasonable to trust your model. Therefore, LQR has come to save the day as a test-bed for everything new pop out of your head. 
 
+LQR is a special case of optimal control problem when we know the state transitions function and we design the cost function to represent our task:
 
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?min&space;E_e[\sum_{t=1}^{T}C_t(x_t,&space;u_t)]">
+</p>
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?x_{t&plus;1}&space;=&space;f_t(x_t,&space;u_t,&space;e_t)">
+</p>
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?u_t&space;=&space;\pi_t(\tau_t)">
+</p>
 
+With LQR, the state transition function is linear:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?x_{t&plus;1}&space;=&space;Ax_t&space;&plus;&space;Bu_t&space;&plus;&space;e_t">
+</p>
+
+  
 ## Approaches to solve LQR with RL
 
 
