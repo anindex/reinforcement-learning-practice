@@ -80,7 +80,15 @@ When the time T approaches infinity, the optimal solution of **u** becomes stati
 
 As we can see, the optimal solution **u** is independence of error variance, which means more noise do not affect system control. In infinite-time scheme, solution **u** is time-invariant.
 
-The questions is, when we do not know state transition function, we do not know A, B in advanced, how can we solve LQR? This is the place that RL shined. 
+The questions is, when we do not know state transition function, we do not know A, B in advanced, how can we solve LQR for optimal control? This is the place that RL shined. 
+
+We have these roads to follow:
+
+1. Identify everything (the most masochistic way lol) about system dynamic using physics and finite element methods.
+2. Identify a coarse model for the system dynamic
+3. We will be blunt :) and map directly data from sensor models to output control (e.g neural network)
+
+More to come...
 
 
 
@@ -93,16 +101,17 @@ Indeed, I write this blog with only high-level intuition with high error (or var
 - After model estimation, we plug the model f as neural network to state transitions and treat it as true function, then how we can estimate its uncertainty like we did in linear model?
 
 **Model-free methods** 
-- Does ADP treat both cost function and state-transition function into one big cost function and use data from oracle and measurement to gradually estimate the cost function to minimize it? 
+- Does ADP treat both cost function and state-transition function into one big cost function and use data from measurement (like measure state x) to gradually estimate the cost function to minimize it? 
 
-- How do model-free methods of RL acquire system states ![alt text](https://latex.codecogs.com/gif.latex?x_t) value? By mean of sampling online or offline? 
+- How do model-free methods of RL acquire system states ![alt text](https://latex.codecogs.com/gif.latex?x_t) value? By mean of measurement online or offline? 
 
 **Approximate Dynamic Programming**
 - (Too hard to understand what is happening?) We must know the terminal condition to estimate Q and then optimize action u?
-Again, does ADP sample (or measure) unknown series of state ![alt text](https://latex.codecogs.com/gif.latex?x_t)? 
+Again, how does ADP sample (or measure) unknown series of state ![alt text](https://latex.codecogs.com/gif.latex?x_t)? 
 
 **Direct Policy Search**
-- Is it some form of sampling data z over a parametrized distribution and gradually improving shape of distribution to minimize cost function (via the distribution)? 
+- Is it some form of sampling data z over a parametrized distribution and gradually improving shape of distribution to minimize cost function (via the distribution)? If so, like Prof. Recht said, this paradigm is just like random search over action **u** space to minimize cost?
+
 - Need clarification in the Policy Gradient slide. How the distribution of u is updated?
 
 **Misc**
