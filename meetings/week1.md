@@ -10,13 +10,13 @@ I know some Computer Science guys at my Uni said that Deep RL is the key to achi
 
 The tour of Ben Recht indeed clears my doubts, there is a whole pool of problems to solve. Why is it so hard to optimal control a system given unknown dynamic states? RL has to be the one that could easily solve this kind of problem. The answer is simple, the stakes could not be higher if we would like to guarantee safety executions and valuable gains (both are defined by reward function) by a series of action in uncertainty. Afterall, RL is to find (randomly or heuristic) a series of action **u** to maximize reward function **r**.
 
-## A test-beds for everyone to test: Linear Quadratic Regulator (LQR)
+## A test-bed for everyone to test: Linear Quadratic Regulator (LQR)
 
 As Prof. Recht stated his point:
 
 > If a machine learning does crazy things  when restricted to  linear models, it's going to do crazy things on complex nonlinear models too.
 
-And reversely, if your ML algorithm has good results on non-linear models, it has to be get acceptable results on linear models too. Otherwise, it is unreasonable to trust your model. Therefore, LQR has come to save the day as a test-bed for everything new pop out of your head. 
+And reversely, if your ML algorithm has good results on non-linear models, it has to be get acceptable results on linear models too. Otherwise, it is unreasonable to trust your model. Therefore, LQR has come to save the day as a test-bed for everything new popped out of your head. 
 
 LQR is a special case of optimal control problem when we know the state transitions function and we design the cost function to represent our task:
 
@@ -88,8 +88,36 @@ We have these roads to follow:
 2. Identify a coarse model for the system dynamic
 3. We will be blunt :) and map directly data from sensor models to output control (e.g neural network)
 
-More to come...
+### Model-based approaches
 
+I am personally like the first approach, because that's what Control Theory guys usually do anyway :). They called this approach System Identification. However, in ML manner, we do not use the glory of Physics to model the system. What we are going to do is trying to learn the state-transition function, which means we will fit the matrix A and B with some cost function by choices. For example, we use L2 loss to fit A, B:
+
+<p align="center">
+  <img src=https://latex.codecogs.com/gif.latex?\hat{A},&space;\hat{B}&space;=&space;\underset{A,&space;B}{min}&space;\sum_{t=1}^{T-1}||x_{t&plus;1}&space;-&space;Ax_t&space;-&space;Bu_t||^2>
+</p>
+
+Then we plug these matrices to state transition function with an error ![alt text](https://latex.codecogs.com/gif.latex?v_t):
+
+<p align="center">
+  <img src=https://latex.codecogs.com/gif.latex?x_{t&plus;1}&space;=&space;\hat{A}x_t&plus;\hat{B}u_t&space;&plus;&space;v_t>
+</p>
+
+Actually, if we treat ![alt text](https://latex.codecogs.com/gif.latex?\hat{A},&space;\hat{B}) as true dynamic matrices, it does not feel right. So far, this approach finds solution **u** based on what we just estimated ![alt text](https://latex.codecogs.com/gif.latex?\hat{A},&space;\hat{B}). Here is the burning question: How can we model the uncertainty (errors) of our estimation and then use that to design solution **u** to robust control the system?
+
+To answer that question, there are recent works of (again) Prof.Recht's group about Coarsed-ID control addressing this problem. These works will be discussed in next posts.
+
+### Model-free approaches
+
+This section is huge! I cannot write the section down with few lines, it is even fit to have many intensive courses in RL. And yes, this is the realm of RL, everyone like it :). This section serves as introductory point for the next few posts. Basically, as the name stated, we do not care about the system dynamic, what we do is to mitigate cost function by:
+
+- Iteratively refining cost function based on measured system state and estimating policy ![alt text](https://latex.codecogs.com/gif.latex?u_t) from the cost function each time step: **Approximate Dynamic Programming**.
+- Defining a parametrized distribution ![alt text](https://latex.codecogs.com/gif.latex?p(u;\vartheta)) over ![alt text](https://latex.codecogs.com/gif.latex?u_t) and randomly searching ![alt text](https://latex.codecogs.com/gif.latex?u_t) to refine iteratively the parametrized distribution ![alt text](https://latex.codecogs.com/gif.latex?p(u;\vartheta)). The purpose is to minimize cost function expected over that distribution: **Direct Policy Search**.  
+
+For now, we do not go to detail of these methods. PID is also a model-free method that find **u** based on just the error, but PID can  learn to compensate for poor models, changing conditions? This leads us to a burning topic from PID to RL: 
+
+> How well must we understand the system in order to optimal control it? 
+
+The next few posts we will discuss how we balance between optimal policy solution versus computation cost to process the system state samples and how fast these methods find solution that leads system to stability.
 
 
 ## Questions?
@@ -118,4 +146,8 @@ Again, how does ADP sample (or measure) unknown series of state ![alt text](http
 - Using bootstrap in simulation to estimate the error of model?
 
 
+## References
 
+- [An Outsider's Tour of Reinforcement Learning by Ben Recht](http://www.argmin.net/2018/06/25/outsider-rl/)
+- [A Tour of Reinforcement Learning: The View from Continuous Control](https://arxiv.org/abs/1806.09460)
+- [Optimization Perspectives on Learning to Control ICML 2018 Tutorial](https://people.eecs.berkeley.edu/~brecht/l2c-icml2018/)
