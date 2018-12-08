@@ -98,7 +98,7 @@ MDP is a Markov reward process with decisions to act on the environment, and the
 - S is a finite set of states
 - A is a finite set of actions
 - P is state transition probability matrix, ![alt text](https://latex.codecogs.com/gif.latex?P_{ss'}^a&space;=&space;P[S_{t&plus;1}=s'|S_t=s,&space;A_t=a])
-- R is a (immediate) reward function for each state, ![alt text](https://latex.codecogs.com/gif.latex?R_s=E[R_{t&plus;1}|S_t=s])
+- R is a (immediate) reward function for each state, ![alt text](https://latex.codecogs.com/gif.latex?R_s^a=E[R_{t&plus;1}|S_t=s,A_t=a])
 - ![alt text](https://latex.codecogs.com/gif.latex?\gamma) is a discount factor ranging from 0 to 1.
 
 To extend from MRP, MDP defines a policy distribution over a set of agent's actions on state s:
@@ -168,3 +168,29 @@ It is computationally hard to compute state-value function, which is O(n^3) for 
 
 
 ### Optimal Policy for MDP
+
+We define the optimal state-value function and action-value function are the maximum of these function over all policies:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_*(s)&space;=&space;\underset{\pi}{max}&space;v_\pi(s)">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_*(s,a)&space;=&space;\underset{\pi}{max}&space;q_\pi(s,a)">
+</p>
+
+The optimal value function specifies the best possible performance in MDP. We reply on MDP theorem to find optimal policies:
+
+- There exists an optimal policy that is better than all other policies ![alt text](https://latex.codecogs.com/gif.latex?\pi_*&space;\geq&space;\pi,&space;\forall&space;\pi)
+- There may be multiple solution to achieve optimal state-value function and action-value function.
+
+If we know optimal ![alt text](https://latex.codecogs.com/gif.latex?q_*(s,a)), we immediately have the optimal policy. We can solve recursively for optimal state-value function and action-value function through these Bellman optimality function:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_*(s)&space;=&space;\underset{a}{max}R_s^a&plus;\gamma\sum&space;_{s'&space;\in&space;S}P_{ss'}^av_*(s')">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_*(s,a)&space;=&space;R_s^a&plus;\gamma\sum&space;_{s'&space;\in&space;S}P_{ss'}^a\underset{a'}{max}q_*(s',a')">
+</p>
+Again, Bellman optimality equations is non-linear and have no close form solution. We must use iterative methods to solve them, e.g Value Iterative, Policy iteration, Q-learning, Sarsa.
