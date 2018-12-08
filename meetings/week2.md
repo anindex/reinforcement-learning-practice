@@ -19,7 +19,17 @@ Using RL, we try to build an agent that acts ![alt text](https://latex.codecogs.
 
 Both agent and environment has its own internal state ![alt text](https://latex.codecogs.com/gif.latex?S_t^a) and ![alt text](https://latex.codecogs.com/gif.latex?S_t^e) respectively. We can formulate agent state as a function of history ![alt text](https://latex.codecogs.com/gif.latex?S_t^a&space;=&space;f(H_t)). 
 
-## Markov Process (Markov Chain)
+## Markov Decision Process (MDP)
+
+MDP serves as an effective mathematical foundation for the problem of RL, it formally describes an environment of RL. For instance, almost all RL problems can be formalised as MDPs:
+
+- Optimal Control can be formulated with continuous MDPs
+- Partially Observable problems can be converted into MDPs
+- Bandits are MDPs with one state. 
+
+MDP fits correctly with the RL characteristics when RL agent has all information about the environment (full observability), where RL agent is stochastic, time-dependent and action affecting subsequent data. This document will introduce MDP definitions and formulations, the next posts will discuss how to solve MDPs and apply it to RL problems.
+
+### Markov Process (Markov Chain)
 
 Markov Process is a mermoryless random process, i.e a sequence of random state ![alt text](https://latex.codecogs.com/gif.latex?S_t) has the property:
 
@@ -35,10 +45,11 @@ If we have finite n state ![alt text](https://latex.codecogs.com/gif.latex?S_1,.
   <img src="https://latex.codecogs.com/gif.latex?\begin{bmatrix}&space;P_{11}&space;&&space;...&space;&&space;P_{1n}\\&space;...&space;&&space;&&space;\\&space;P_{n1}&space;&&space;...&space;&&space;P_{nn}&space;\end{bmatrix}">
 </p>
 
-## Markov Decision Process (MDP)
+### Markov Reward Process (MRP)
 
 
 
-### MDP Formulation
+### Markov Decision Process (MDP)
+
 
 ### Optimal Policy for MDP
