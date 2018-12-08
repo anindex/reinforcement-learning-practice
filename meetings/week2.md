@@ -46,8 +46,50 @@ If we have finite n state ![alt text](https://latex.codecogs.com/gif.latex?S_1,.
 </p>
 
 ### Markov Reward Process (MRP)
+Basically, MRP is Markov chain with values for each state. The value of each state measures how good to be in that state. To be concrete, MRP is a tuple ![alt text](https://latex.codecogs.com/gif.latex?(S,&space;P,&space;R,&space;\gamma)):
 
+- S is a finite set of state
+- P is state transition probability matrix, ![alt text](https://latex.codecogs.com/gif.latex?P_{ss'}&space;=&space;P[S_{t&plus;1}=s'|S_t=s])
+- R is a (immediate) reward function for each state, ![alt text](https://latex.codecogs.com/gif.latex?R_s=E[R_{t&plus;1}|S_t=s])
+- ![alt text](https://latex.codecogs.com/gif.latex?\gamma) is a discount factor ranging from 0 to 1.
 
+The value function v(s) computes value for each state is the expected reward return starting from state s:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v(s)&space;=&space;E[G_t|S_t=s]">
+</p>
+
+where return G is
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?G_t&space;=&space;R_{t&plus;1}&space;&plus;&space;\gamma&space;R_{t&plus;2}&space;&plus;...=\sum_{k=0}^\infty&space;\gamma&space;^kR_{t&plus;k&plus;1}">
+</p>
+
+Intuitively, the function value averages all possible reward return path from state s to the terminal state of MRP (terminal state to avoid infinite return), where each path has a unique return G. The factor ![alt text](https://latex.codecogs.com/gif.latex?\gamma) discounts G to also avoid infinite return G when there are infinite state sequences, and to represent uncertainty of far future reward and favoring immediate rewards.
+
+The value function can be in the form of Bellman equation:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v(s)=E[R_{t&plus;1}&plus;\gamma&space;v(S_{t&plus;1})|S_t=s]">
+</p>
+
+ or
+ 
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v(s)=R_s&plus;\gamma&space;\sum_{s'\in&space;S}P_{ss'}v(s')">
+</p>
+
+To be able to solve for v(s), we must represent Bellman function in matrix form:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v&space;=&space;R&space;&plus;&space;\gamma&space;Pv">
+</p>
+
+and solve for v:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v&space;=&space;(I&space;-&space;\gamma&space;P)^{-1}R">
+</p>
 
 ### Markov Decision Process (MDP)
 
