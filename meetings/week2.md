@@ -48,7 +48,7 @@ If we have finite n state ![alt text](https://latex.codecogs.com/gif.latex?S_1,.
 ### Markov Reward Process (MRP)
 Basically, MRP is Markov chain with values for each state. The value of each state measures how good to be in that state. To be concrete, MRP is a tuple ![alt text](https://latex.codecogs.com/gif.latex?(S,&space;P,&space;R,&space;\gamma)):
 
-- S is a finite set of state
+- S is a finite set of states
 - P is state transition probability matrix, ![alt text](https://latex.codecogs.com/gif.latex?P_{ss'}&space;=&space;P[S_{t&plus;1}=s'|S_t=s])
 - R is a (immediate) reward function for each state, ![alt text](https://latex.codecogs.com/gif.latex?R_s=E[R_{t&plus;1}|S_t=s])
 - ![alt text](https://latex.codecogs.com/gif.latex?\gamma) is a discount factor ranging from 0 to 1.
@@ -92,6 +92,79 @@ and solve for v:
 </p>
 
 ### Markov Decision Process (MDP)
+
+MDP is a Markov reward process with decisions to act on the environment, and then the enviroment will stochastically transition to the next state s'. Please note that all states in MDP are Markov. A MDP is a tuple ![alt text](https://latex.codecogs.com/gif.latex?(S,&space;A,&space;P,&space;R,&space;\gamma))
+
+- S is a finite set of states
+- A is a finite set of actions
+- P is state transition probability matrix, ![alt text](https://latex.codecogs.com/gif.latex?P_{ss'}^a&space;=&space;P[S_{t&plus;1}=s'|S_t=s,&space;A_t=a])
+- R is a (immediate) reward function for each state, ![alt text](https://latex.codecogs.com/gif.latex?R_s=E[R_{t&plus;1}|S_t=s])
+- ![alt text](https://latex.codecogs.com/gif.latex?\gamma) is a discount factor ranging from 0 to 1.
+
+To extend from MRP, MDP defines a policy distribution over a set of agent's actions on state s:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?\pi&space;(a|s)=P[A_t=a|S_t=s]">
+</p>
+
+The policies are depend on the current state s (not the history) and are stationary(time-independent).
+MDP also redefines the state-value function and action-value function, which are the expected return starting from state s and then following the policy ![alt text](https://latex.codecogs.com/gif.latex?\pi):
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_\pi&space;(s)=E_\pi[G_t|S_t=s]">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_\pi(s,a)&space;=&space;E_\pi[G_t|S_t=s,A_t=a]">
+</p>
+
+we then rewrite these equation as Bellman Expectation equations:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_\pi(s)&space;=&space;E_\pi[R_{t&plus;1}&plus;\gamma&space;v_\pi(S_{t&plus;1})|S_t=s]">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_\pi(s,a)&space;=&space;E_\pi[R_{t&plus;1}&plus;\gamma&space;q_\pi(S_{t&plus;1},A_{t&plus;1})|S_t=s,A_t=a]">
+</p>
+
+After simple transformations, we can see their inter-relation as follow:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_\pi(s)&space;=&space;\sum&space;_{a&space;\in&space;A}\pi(a|s)q_\pi(s,a)">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_\pi(s,a)&space;=&space;R_s^a&plus;\gamma\sum_{s'&space;\in&space;S}P_{ss'}^av_\pi(s')">
+</p>
+
+which leads us to the state-value transition function and action-value transition function:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_\pi(s)&space;=\sum_{a&space;\in&space;A}\pi(a|s)(R_s^a&plus;\gamma\sum&space;_{s'&space;\in&space;S}P_{ss'}^av_\pi(s'))">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?q_\pi(s,a)&space;=&space;R_s^a&plus;\gamma\sum_{s'&space;\in&space;S}P_{ss'}^a\sum&space;_{a'&space;\in&space;A}\pi(a'|s')q_\pi(s',a')">
+</p>
+
+We can solve MDP state-value function by Bellman Expectation equation in matrix form:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?v_\pi&space;=&space;(I&space;-&space;\gamma&space;P^\pi)^{-1}R^\pi">
+</p>
+
+where 
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?P_{ss'}^\pi&space;=&space;\sum&space;_{a&space;\in&space;A}\pi(a|s)P_{ss'}^a">
+</p>
+
+<p align="center">
+  <img src="https://latex.codecogs.com/gif.latex?R_{s}^\pi&space;=&space;\sum&space;_{a&space;\in&space;A}\pi(a|s)R_{s}^a">
+</p>
+
+It is computationally hard to compute state-value function, which is O(n^3) for n states. We must use iterative methods for large set of states, e.g Dynamic Programming, Monte-Carlo evaluation, Temporal-Different learning, etc. 
 
 
 ### Optimal Policy for MDP
