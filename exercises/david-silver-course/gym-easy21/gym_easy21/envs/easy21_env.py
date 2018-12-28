@@ -10,7 +10,7 @@ class Easy21Env(gym.Env):
 
     def __init__(self):
         self.action_space = spaces.Discrete(2) # two action for player: stick(0) or hit(1)
-        self.observation_space = spaces.Box(low=-10, high=30, dtype=np.int32, shape=(2,1)) # each state represents the score of dealer and player
+        self.observation_space = spaces.Box(low=1, high=21, dtype=np.int32, shape=(2,1)) # each state represents the score of dealer and player
         self.player = 0 # player and dealer score
         self.dealer = 0
 
@@ -56,7 +56,7 @@ class Easy21Env(gym.Env):
         return (self.player, self.dealer)
 
     def _draw_card(self):
-        card_type = 1 if self.random_type.randint(3) < 1 else 0
+        card_type = 1 if self.random_type.randint(3) < 1 else 0 # black is 0, red is 1
         return self.random_num.choice(Easy21Env.deck), card_type
 
 
